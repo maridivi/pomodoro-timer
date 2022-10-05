@@ -5,7 +5,7 @@ import { IoPause } from "react-icons/io5";
 import { FaPlay } from "react-icons/fa";
 
 export const PlayIcon = () => {
-  return <Icon icon={<FaPlay color="currentColor" size={16} />} />;
+  return <Icon icon={<FaPlay color="currentColor" size={24} />} />;
 };
 
 export const PauseIcon = () => {

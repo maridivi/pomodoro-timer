@@ -72,7 +72,8 @@ export const Tick = () => {
         top: 8,
         height: 12,
         borderRadius: 4,
-        backgroundColor: "slategray",
+        backgroundColor: "rgba(0,0,0,0.15)",
+        backdropFilter: "saturate(3)",
       }}
       className="absolute"
     ></div>

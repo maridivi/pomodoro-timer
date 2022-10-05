@@ -1,30 +1,31 @@
-import React, { useState } from "react";
-import Button from "./components/Button";
+import React, { createContext, useState } from "react";
 import Timer from "./components/Timer";
 import Title from "./components/Title";
-import { FaMoon, FaSun } from "react-icons/fa";
+import Wrapper from "./components/Wrapper";
+
+export const ModeContext = createContext({
+  currentMode: "work",
+  setCurrentMode: () => {},
+  colorMode: undefined,
+});
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [currentMode, setCurrentMode] = useState("work");
+
+  const colorMode =
+    currentMode === "work"
+      ? "hsl(0, 60%, 90%)"
+      : currentMode === "rest"
+      ? "hsl(200, 30%, 90%)"
+      : "hsl(200, 60%, 80%)";
+
   return (
-    <div id="container" className={darkMode && "dark"}>
-      <div className="bg-customBackground dark:bg-slate-800 mx-auto border h-screen w-screen">
-        <div>
-          <Title />
-          <div className="top-5 right-5 absolute hover:opacity-50">
-            <Button
-              onClick={() => {
-                setDarkMode(!darkMode);
-              }}
-              icon={darkMode ? <FaSun color="white" /> : <FaMoon />}
-            />
-          </div>
-        </div>
-        <div className="w-fit mx-auto my-40 ">
-          <Timer />
-        </div>
-      </div>
-    </div>
+    <ModeContext.Provider value={{ currentMode, setCurrentMode, colorMode }}>
+      <Wrapper>
+        <Title />
+        <Timer />
+      </Wrapper>
+    </ModeContext.Provider>
   );
 }
 

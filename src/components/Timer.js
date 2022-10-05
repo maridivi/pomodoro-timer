@@ -1,4 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { ModeContext } from "../App";
 import useSounds from "../hooks/useSounds";
 
 import { Clock } from "./Clock";
@@ -17,7 +24,7 @@ const [MODE_REST, MODE_WORK, MODE_LONG_REST] = ["rest", "work", "longRest"];
 
 export default function Timer() {
   const [isActive, setIsActive] = useState(false);
-  const [currentMode, setCurrentMode] = useState(MODE_WORK);
+  const { currentMode, setCurrentMode, colorMode } = useContext(ModeContext);
   const [remainingTime, setRemainingTime] = useState({
     total: modesTimes[currentMode] * 60,
     minutes: modesTimes[currentMode],
@@ -26,12 +33,6 @@ export default function Timer() {
   const [countAnimation, setCountAnimation] = useState(0);
 
   const [session, setSession] = useState(0);
-  const modeColor =
-    currentMode === MODE_WORK
-      ? "hsl(0, 60%, 90%)"
-      : currentMode === MODE_REST
-      ? "hsl(200, 30%, 90%)"
-      : "hsl(200, 60%, 80%)";
 
   const minutes = remainingTime.minutes;
   const seconds = remainingTime.seconds;
@@ -114,6 +115,7 @@ export default function Timer() {
     endWorkSound,
     increaseSession,
     session,
+    setCurrentMode,
   ]);
 
   // handle timer
@@ -150,30 +152,41 @@ export default function Timer() {
     });
   }, [currentMode]);
 
+  useEffect(() => {
+    document.title =
+      currentMode === MODE_WORK
+        ? "🍅 Focus"
+        : currentMode === MODE_REST
+        ? "🧘🏾‍♀️ Break"
+        : "🥣 Long Break";
+  });
+
   return (
-    <div>
-      <h2 className="mx-auto w-fit mb-4 font-extrabold dark:text-white font-josefin-sans text-lg">
-        {showCurrentMode()}
-      </h2>
-      <Clock
-        seconds={calculateProgress()}
-        playState={isActive ? "running" : "paused"}
-        modeColor={modeColor}
-        resetAnimation={countAnimation.toString()}
-      />
+    <div className="w-fit mx-auto flex items-center flex-1 pb-10">
+      <div>
+        <h2 className="mx-auto w-fit mb-4 font-extrabold dark:text-white font-josefin-sans text-lg">
+          {showCurrentMode()}
+        </h2>
+        <Clock
+          seconds={calculateProgress()}
+          playState={isActive ? "running" : "paused"}
+          modeColor={colorMode}
+          resetAnimation={countAnimation.toString()}
+        />
 
-      <h3 className="mx-auto w-fit font-extrabold mt-8 dark:text-white font-josefin-sans text-lg">
-        {`${minutes}`.padStart(2, "0")}:{`${seconds}`.padStart(2, "0")}
-      </h3>
-      <h3 className="mx-auto w-fit font-extrabold mt-4 dark:text-white font-josefin-sans text-lg">{`#${session}`}</h3>
+        <h1 className="mx-auto w-fit font-extrabold mt-8 dark:text-white font-josefin-sans text-2xl">
+          {`${minutes}`.padStart(2, "0")}:{`${seconds}`.padStart(2, "0")}
+        </h1>
+        <h3 className="mx-auto w-fit font-extrabold mt-4 dark:text-white font-josefin-sans text-lg">{`#${session}`}</h3>
 
-      <Controls
-        style={{ opacity: isActive ? 1 : 0.1 }}
-        onResetClick={resetTimer}
-        onStartClick={handleStartStop}
-        onNextClick={goToNextMode}
-        icon={isActive ? <PauseIcon /> : <PlayIcon />}
-      />
+        <Controls
+          style={{ opacity: isActive ? 1 : 0.1 }}
+          onResetClick={resetTimer}
+          onStartClick={handleStartStop}
+          onNextClick={goToNextMode}
+          icon={isActive ? <PauseIcon /> : <PlayIcon />}
+        />
+      </div>
     </div>
   );
 }
