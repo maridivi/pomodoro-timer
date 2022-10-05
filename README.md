@@ -1,8 +1,8 @@
-#Pomodoro Timer
+# Pomodoro Timer
 
 ---
 
-##About
+## About
 
 ---
 
