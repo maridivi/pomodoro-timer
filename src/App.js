@@ -1,31 +1,28 @@
-import React from 'react';
+import React, { useState } from "react";
+import Button from "./components/Button";
+import Timer from "./components/Timer";
+import Title from "./components/Title";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
   return (
-    <div className="flex flex-col h-full items-center justify-center bg-gray-200 text-gray-700">
-      <div className="flex items-center">
-        <h1 className="text-6xl font-thin tracking-wider">Create React App + Tailwind CSS</h1>
-      </div>
-      <p className="my-6 tracking-wide">
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      <div className="mt-6 flex justify-center">
-        <a
-          className="uppercase hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="ml-10 uppercase hover:underline"
-          href="https://tailwindcss.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Tailwind
-        </a>
+    <div id="container" className={darkMode && "dark"}>
+      <div className="bg-customBackground dark:bg-slate-800 mx-auto border h-screen w-screen">
+        <div>
+          <Title />
+          <div className="top-5 right-5 absolute hover:opacity-50">
+            <Button
+              onClick={() => {
+                setDarkMode(!darkMode);
+              }}
+              icon={darkMode ? <FaSun color="white" /> : <FaMoon />}
+            />
+          </div>
+        </div>
+        <div className="w-fit mx-auto my-40 ">
+          <Timer />
+        </div>
       </div>
     </div>
   );
