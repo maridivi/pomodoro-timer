@@ -6,6 +6,8 @@ I often use this method myself to avoid distractions, so I wanted to make my own
 
 The web app consists of a single main section at the center of the page, which displays a clock with a clock hand that rotates as the timer goes, the control buttons to toggle the timer actions, and a counter that tracks the number of sessions completed.
 
+![Screenshot](/public/images/screenPomodoro.png)
+
 ### Actions and style features
 
 - Play/pause timer
@@ -19,3 +21,7 @@ The web app consists of a single main section at the center of the page, which d
 
 - React (`create-react-app`)
 - [Tailwind CSS](https://tailwindcss.com/)
+
+### Link
+
+Live site: www.pomozone.app
