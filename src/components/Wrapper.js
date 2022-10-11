@@ -10,7 +10,7 @@ export default function Wrapper({ children }) {
   return (
     <div id="container" className={darkMode && "dark"}>
       <div
-        className="dark:bg-slate-800 mx-auto border h-screen w-screen p-2 flex flex-col zoom"
+        className="dark:bg-slate-800 mx-auto border h-screen w-screen p-2 flex flex-col zoom font-inter"
         style={{
           backgroundImage: `radial-gradient(rgba(255,255,255,0) 40%, ${
             !darkMode ? colorMode : "rgba(0,0,0,0.3"

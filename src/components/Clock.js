@@ -46,7 +46,7 @@ export const Clock = ({ seconds, playState, modeColor, resetAnimation }) => {
   );
 };
 
-export const ClockHand = () => {
+const ClockHand = () => {
   return (
     <div className="flex flex-col ">
       <ArrowUp />
@@ -56,14 +56,15 @@ export const ClockHand = () => {
           width: 3,
           top: 15,
           height: size / 2.3,
+          borderRadius: 4,
         }}
         className="bg-black absolute"
-      ></div>
+      />
     </div>
   );
 };
 
-export const Tick = () => {
+const Tick = () => {
   return (
     <div
       style={{
@@ -72,7 +73,7 @@ export const Tick = () => {
         top: 8,
         height: 12,
         borderRadius: 4,
-        backgroundColor: "rgba(0,0,0,0.15)",
+        backgroundColor: "rgba(0,0,0,0.1)",
         backdropFilter: "saturate(3)",
       }}
       className="absolute"
@@ -80,7 +81,7 @@ export const Tick = () => {
   );
 };
 
-export const ArrowUp = () => {
+const ArrowUp = () => {
   return (
     <div
       style={{

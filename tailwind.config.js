@@ -4,10 +4,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        "josefin-sans": ['"Josefin Sans"', "serif"],
-      },
-      colors: {
-        customBackground: "rgb(251,251,251)",
+        inter: ["Inter", "sans serif"],
       },
     },
   },

@@ -164,7 +164,7 @@ export default function Timer() {
   return (
     <div className="w-fit mx-auto flex items-center flex-1 pb-10">
       <div>
-        <h2 className="mx-auto w-fit mb-4 font-extrabold dark:text-white font-josefin-sans text-lg">
+        <h2 className="mx-auto w-fit mb-4 font-extrabold dark:text-white text-slate-700 font-inter text-lg">
           {showCurrentMode()}
         </h2>
         <Clock
@@ -174,10 +174,10 @@ export default function Timer() {
           resetAnimation={countAnimation.toString()}
         />
 
-        <h1 className="mx-auto w-fit font-extrabold mt-8 dark:text-white font-josefin-sans text-2xl">
+        <h1 className="mx-auto w-fit font-extrabold mt-8 dark:text-white font-inter text-2xl text-slate-700 ">
           {`${minutes}`.padStart(2, "0")}:{`${seconds}`.padStart(2, "0")}
         </h1>
-        <h3 className="mx-auto w-fit font-extrabold mt-4 dark:text-white font-josefin-sans text-lg">{`#${session}`}</h3>
+        <h3 className=" text-slate-700 mx-auto w-fit font-extrabold mt-4 dark:text-white font-inter text-lg">{`#${session}`}</h3>
 
         <Controls
           style={{ opacity: isActive ? 1 : 0.1 }}

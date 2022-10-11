@@ -14,7 +14,7 @@ function App() {
 
   const colorMode =
     currentMode === "work"
-      ? "hsl(0, 60%, 90%)"
+      ? "hsl(0, 95%, 85%)"
       : currentMode === "rest"
       ? "hsl(200, 30%, 90%)"
       : "hsl(200, 60%, 80%)";
