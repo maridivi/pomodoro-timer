@@ -25,4 +25,4 @@ The web app consists of a single main section at the center of the page, which d
 
 ### Link
 
-Live site: pomozone.app
+Live site: www.pomozone.app
