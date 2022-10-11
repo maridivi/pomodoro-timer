@@ -19,8 +19,9 @@ The web app consists of a single main section at the center of the page, which d
 
 ### Built with
 
-- React (`create-react-app`)
+- [React (`create-react-app`)](https://reactjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [react-icons](https://react-icons.github.io/react-icons)
 
 ### Link
 
