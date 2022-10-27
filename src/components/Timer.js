@@ -30,7 +30,7 @@ export default function Timer() {
     minutes: modesTimes[currentMode],
     seconds: 0,
   });
-  const [countAnimation, setCountAnimation] = useState(0);
+  const [resetCountAnimationKey, setResetCountAnimationKey] = useState(0);
 
   const [session, setSession] = useState(0);
 
@@ -41,7 +41,7 @@ export default function Timer() {
 
   const interval = useRef();
 
-  const calculateProgress = useCallback(() => {
+  const calculateProgressSeconds = useCallback(() => {
     if (currentMode === MODE_WORK) return 1500;
     if (currentMode === MODE_REST) return 300;
     if (currentMode === MODE_LONG_REST) return 900;
@@ -54,8 +54,8 @@ export default function Timer() {
   }
 
   const increaseSession = useCallback(() => {
-    setSession(session + 1);
-  }, [session]);
+    setSession((current) => current + 1);
+  }, []);
 
   function resetTimer() {
     setIsActive(false);
@@ -65,7 +65,7 @@ export default function Timer() {
       minutes: modesTimes[currentMode],
       seconds: 0,
     });
-    setCountAnimation(countAnimation + 1);
+    setResetCountAnimationKey(resetCountAnimationKey + 1);
   }
 
   function handleStartStop() {
@@ -87,6 +87,7 @@ export default function Timer() {
       seconds,
     };
   }
+  console.log(session);
 
   const goToNextMode = useCallback(() => {
     if (currentMode === MODE_WORK) {
@@ -94,22 +95,35 @@ export default function Timer() {
     }
 
     setIsActive(false);
-    setCountAnimation(countAnimation + 1);
+    setResetCountAnimationKey(resetCountAnimationKey + 1);
 
-    const isLongRest = session % LONG_BREAK_INTERVAL === 0;
+    const isLongRest = (session * 1) % LONG_BREAK_INTERVAL === 0;
+
+    let newMode;
 
     if (isLongRest && currentMode === MODE_WORK && session !== 0) {
-      setCurrentMode(MODE_LONG_REST);
+      newMode = MODE_LONG_REST;
+      document.title = "🥣 Long Break";
       endWorkSound.play();
     } else if (currentMode === MODE_WORK) {
-      setCurrentMode(MODE_REST);
+      newMode = MODE_REST;
+      document.title = "🧘🏾‍♀️ Break";
       endWorkSound.play();
     } else {
-      setCurrentMode(MODE_WORK);
+      newMode = MODE_WORK;
+      document.title = "🍅 Focus";
       endPauseSound.play();
     }
+
+    setRemainingTime({
+      total: modesTimes[newMode] * 60,
+      minutes: modesTimes[newMode],
+      seconds: 0,
+    });
+
+    setCurrentMode(newMode);
   }, [
-    countAnimation,
+    resetCountAnimationKey,
     currentMode,
     endPauseSound,
     endWorkSound,
@@ -125,41 +139,28 @@ export default function Timer() {
 
     if (isActive) {
       interval.current = setInterval(() => {
-        setRemainingTime(getRemainingTime(endTime));
-        calculateProgress();
+        const remainingTime = getRemainingTime(endTime);
+
+        setRemainingTime(remainingTime);
+
+        // When the time ends, switch to the next mode
+        if (total <= 0) {
+          clearInterval(interval.current);
+          setIsActive(false);
+          goToNextMode();
+        }
       }, 1000);
     } else {
       clearInterval(interval.current);
     }
     return () => clearInterval(interval.current);
-  }, [isActive, currentMode, calculateProgress, remainingTime]);
-
-  useEffect(() => {
-    const { total } = remainingTime;
-    if (total <= 0) {
-      clearInterval(interval.current);
-      setIsActive(false);
-      goToNextMode();
-      increaseSession();
-    }
-  }, [remainingTime, goToNextMode, increaseSession]);
-
-  useEffect(() => {
-    setRemainingTime({
-      total: modesTimes[currentMode] * 60,
-      minutes: modesTimes[currentMode],
-      seconds: 0,
-    });
-  }, [currentMode]);
-
-  useEffect(() => {
-    document.title =
-      currentMode === MODE_WORK
-        ? "🍅 Focus"
-        : currentMode === MODE_REST
-        ? "🧘🏾‍♀️ Break"
-        : "🥣 Long Break";
-  });
+  }, [
+    isActive,
+    currentMode,
+    calculateProgressSeconds,
+    remainingTime,
+    goToNextMode,
+  ]);
 
   return (
     <div className="w-fit mx-auto flex items-center flex-1 pb-10">
@@ -168,10 +169,10 @@ export default function Timer() {
           {showCurrentMode()}
         </h2>
         <Clock
-          seconds={calculateProgress()}
+          seconds={calculateProgressSeconds()}
           playState={isActive ? "running" : "paused"}
           modeColor={colorMode}
-          resetAnimation={countAnimation.toString()}
+          resetAnimation={resetCountAnimationKey.toString()}
         />
 
         <h1 className="mx-auto w-fit font-extrabold mt-8 dark:text-white font-inter text-2xl text-slate-700 ">

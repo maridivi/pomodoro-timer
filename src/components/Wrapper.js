@@ -8,7 +8,7 @@ export default function Wrapper({ children }) {
 
   const { colorMode } = useContext(ModeContext);
   return (
-    <div id="container" className={darkMode && "dark"}>
+    <div id="container" className={darkMode ? "dark" : "light"}>
       <div
         className="dark:bg-slate-800 mx-auto border h-screen w-screen p-2 flex flex-col zoom font-inter"
         style={{
