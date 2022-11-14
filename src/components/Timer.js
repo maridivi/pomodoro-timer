@@ -87,7 +87,6 @@ export default function Timer() {
       seconds,
     };
   }
-  console.log(session);
 
   const goToNextMode = useCallback(() => {
     if (currentMode === MODE_WORK) {
@@ -97,7 +96,7 @@ export default function Timer() {
     setIsActive(false);
     setResetCountAnimationKey(resetCountAnimationKey + 1);
 
-    const isLongRest = (session * 1) % LONG_BREAK_INTERVAL === 0;
+    const isLongRest = (session + 1) % LONG_BREAK_INTERVAL === 0;
 
     let newMode;
 
